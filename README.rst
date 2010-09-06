@@ -37,23 +37,23 @@ Usage
         VK_APP_KEY = 'M1gytuHwni'               # Application key
         VK_APP_SECRET = 'MiRFwrDYwcYFCTD18EcY'  # Secure key
 
-3. Add 'vk.iframe' to INSTALLED_APPS
+3. Add 'vk_iframe' to INSTALLED_APPS
 
-4. Add 'vk.iframe.backends.VkontakteUserBackend' to AUTHENTICATION_BACKENDS::
+4. Add 'vk_iframe.backends.VkontakteUserBackend' to AUTHENTICATION_BACKENDS::
 
         AUTHENTICATION_BACKENDS = (
             'django.contrib.auth.backends.ModelBackend',
-            'vk.iframe.backends.VkontakteUserBackend',
+            'vk_iframe.backends.VkontakteUserBackend',
         )
 
 
-5. Put 'vk.iframe.middleware.AuthenticationMiddleware' and
-   'vk.iframe.middleware.LoginRequiredMiddleware' to the end of MIDDLEWARE_CLASSES::
+5. Put 'vk_iframe.middleware.AuthenticationMiddleware' and
+   'vk_iframe.middleware.LoginRequiredMiddleware' to the end of MIDDLEWARE_CLASSES::
 
         MIDDLEWARE_CLASSES = [
             # ...
-            'vk.iframe.middleware.AuthenticationMiddleware',
-            'vk.iframe.middleware.LoginRequiredMiddleware',
+            'vk_iframe.middleware.AuthenticationMiddleware',
+            'vk_iframe.middleware.LoginRequiredMiddleware',
         ]
 
    Vkontakte visitors will be automatically registered and authorized as django
@@ -69,7 +69,7 @@ Usage
         ]
 
 
-6. Run ``python ./manage.py syncdb`` (or ``python ./manage.py migrate`` if
+6. Run ``python ./manage.py syncdb`` (or ``python ./manage.py migrate vk_iframe`` if
    South is used)
 
 7. Optional: load initial geo data (cities and countries)::

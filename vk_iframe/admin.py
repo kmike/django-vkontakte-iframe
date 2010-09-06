@@ -1,6 +1,6 @@
 #coding: utf-8
 from django.contrib import admin
-from vk.iframe.models import Country, City, Profile
+from vk_iframe.models import Country, City, Profile
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 

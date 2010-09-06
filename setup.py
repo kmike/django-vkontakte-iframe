@@ -9,9 +9,10 @@ setup(
     author='Mikhail Korobov',
     author_email='kmike84@gmail.com',
 
-    packages=['vk', 'vk.iframe', 'vk.iframe.migrations'],
+    packages=['vk_iframe', 'vk_iframe.migrations'],
     package_data={
-          'vk.iframe': ['templates/vk/default/403.html', 'fixtures/vk-geo.json']},
+        'vk_iframe': ['templates/vk_iframe/default/403.html', 'fixtures/vk-geo.json']
+    },
 
     url='http://bitbucket.org/kmike/django-vkontakte-iframe/',
     download_url = 'http://bitbucket.org/kmike/django-vkontakte-iframe/get/tip.zip',

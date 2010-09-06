@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.db.transaction import commit_on_success
-from vk.iframe.models import Country, City
+from vk_iframe.models import Country, City
 
 @commit_on_success
 def load_countries(request):

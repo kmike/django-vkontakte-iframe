@@ -4,8 +4,8 @@ from django.contrib import auth
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseForbidden
 from django.conf import settings
-from vk.iframe.forms import VkontakteIframeForm
 from django.shortcuts import render_to_response
+from vk_iframe.forms import VkontakteIframeForm
 
 class AuthenticationMiddleware(object):
 
@@ -52,4 +52,4 @@ class LoginRequiredMiddleware(object):
             for url in PUBLIC_URLS:
                 if re.match(url, path):
                     return
-            return HttpResponseForbidden(render_to_response(['vk/403.html', '403.html', 'vk/default/403.html']))
+            return HttpResponseForbidden(render_to_response(['vk_iframe/403.html', '403.html', 'vk_iframe/default/403.html']))

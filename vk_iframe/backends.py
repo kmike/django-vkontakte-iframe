@@ -1,7 +1,7 @@
 #coding: utf-8
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
-from vk.iframe.models import City, Country
+from vk_iframe.models import City, Country
 
 class VkontakteUserBackend(ModelBackend):
     """ Использовать вместе с vk.middleware.AuthenticationMiddleware """
