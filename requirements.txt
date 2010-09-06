@@ -1,0 +1,4 @@
+vkontakte >= 0.9.4.1
+django-annoying
+WebTest
+django-webtest >= 1.2.2
