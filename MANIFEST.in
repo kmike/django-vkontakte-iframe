@@ -1,3 +1,5 @@
 include *.txt
 include *.rst
 recursive-include docs *.txt
+recursive-include vk_iframe *.html
+include vk_iframe/fixtures/vk-geo.json
