@@ -48,7 +48,7 @@ Usage
 
 
 5. Put 'vk.iframe.middleware.AuthenticationMiddleware' and
-  'vk.iframe.middleware.LoginRequiredMiddleware' to the end of MIDDLEWARE_CLASSES::
+   'vk.iframe.middleware.LoginRequiredMiddleware' to the end of MIDDLEWARE_CLASSES::
 
         MIDDLEWARE_CLASSES = [
             # ...
