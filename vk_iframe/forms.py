@@ -3,6 +3,7 @@ from hashlib import md5
 from django import forms
 from django.conf import settings
 from django.utils import simplejson as json
+from vk_iframe.languages import LANGUAGES
 
 VIEWER_TYPES_GROUP = (
     (3, u'пользователь является администратором группы'),
@@ -16,13 +17,6 @@ VIEWER_TYPES_USER = (
     (2, u'пользователь является руководителем группы'),
     (1, u'пользователь является участником группы'),
     (0, u'пользователь не состоит в группе'),
-)
-
-LANGUAGES = (
-    (0, u'русский язык'),
-    (1, u'украинский язык'),
-    (2, u'белорусский язык'),
-    (3, u'английский язык'),
 )
 
 REFERRER_CHOICES = (
