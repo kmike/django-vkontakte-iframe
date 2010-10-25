@@ -31,10 +31,17 @@ class AuthenticationMiddleware(object):
 
         # пользователь не залогинен или залогинен под другим именем
         vk_form = VkontakteIframeForm(request.GET)
+
         user = auth.authenticate(vk_form = vk_form)
         if user:
             request.user = user
             auth.login(request, user)
+
+            # устанавливаем язык пользователя
+            lang_code = vk_form.language_code()
+            if hasattr(request, 'session') and lang_code:
+                request.session['django_language'] = lang_code
+
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
 

@@ -23,7 +23,6 @@ Requirements
 Optional:
 
 * vkontakte >= 0.9.4.1 for populating cities and countries info via admin action
-* django-webtest >= 1.2.2 for tests
 
 Usage
 =====
@@ -48,13 +47,25 @@ Usage
 
 
 5. Put 'vk_iframe.middleware.AuthenticationMiddleware' and
-   'vk_iframe.middleware.LoginRequiredMiddleware' to the end of MIDDLEWARE_CLASSES::
+   'vk_iframe.middleware.LoginRequiredMiddleware' to MIDDLEWARE_CLASSES::
 
         MIDDLEWARE_CLASSES = [
             # ...
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+            # ...
             'vk_iframe.middleware.AuthenticationMiddleware',
+            # ...
+            'django.middleware.locale.LocaleMiddleware',
+            # ...
             'vk_iframe.middleware.LoginRequiredMiddleware',
         ]
+
+   Please note that 'vk_iframe.middleware.AuthenticationMiddleware' must be
+   after 'django.contrib.auth.middleware.AuthenticationMiddleware' but before
+   'django.middleware.locale.LocaleMiddleware'.
+
+   'vk_iframe.middleware.LoginRequiredMiddleware' must be after
+   'vk_iframe.middleware.AuthenticationMiddleware'.
 
    Vkontakte visitors will be automatically registered and authorized as django
    users (username == vkontakte user id).
@@ -67,6 +78,9 @@ Usage
             '^admin/$',
             '^my-callback/',
         ]
+
+   If i18n is in use then vkontakte user's language will be used as django's
+   user language.
 
 
 6. Run ``python ./manage.py syncdb`` (or ``python ./manage.py migrate vk_iframe`` if

@@ -1,8 +1,11 @@
 #coding: utf-8
 from hashlib import md5
+
 from django import forms
 from django.conf import settings
 from django.utils import simplejson as json
+from django.utils.translation import check_for_language
+
 from vk_iframe.languages import LANGUAGES
 
 VIEWER_TYPES_GROUP = (
@@ -28,6 +31,7 @@ REFERRER_CHOICES = (
 )
 
 class VkontakteIframeForm(forms.Form):
+    LANGUAGE_CHOICES = [(i[0], i[1][0]) for i in LANGUAGES]
 
     # адрес сервиса API, по которому необходимо осуществлять запросы
     api_url = forms.CharField()
@@ -62,7 +66,7 @@ class VkontakteIframeForm(forms.Form):
     auth_key = forms.CharField()
 
     # id языка пользователя, просматривающего приложение
-    language = forms.ChoiceField(LANGUAGES)
+    language = forms.ChoiceField(LANGUAGE_CHOICES)
 
     # результат первого API-запроса, который выполняется при загрузке приложения
     api_result = forms.CharField(required = False)
@@ -105,3 +109,16 @@ class VkontakteIframeForm(forms.Form):
         if api_result:
             return json.loads(api_result)['response'][0]
         return {}
+
+    def language_code(self):
+        """
+        Возвращает код языка или None, если язык не поддерживается/не известен
+        """
+        lang_code = None
+        for language in self.LANGUAGE_CHOICES:
+            if language[0] == int(self.cleaned_data['language']):
+                lang_code = language[1]
+                break
+        if check_for_language(lang_code):
+            return lang_code
+        return None
