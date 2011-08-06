@@ -22,14 +22,6 @@ VIEWER_TYPES_USER = (
     (0, u'пользователь не состоит в группе'),
 )
 
-REFERRER_CHOICES = (
-    ('menu', u'приложение запущено в результате перехода через левое меню'),
-    ('wall_post_inline', 'приложение запущено через меню публикации новой записи на стене'),
-    ('wall_post', 'приложение запущено через меню публикации новой записи на стене и развернуто в новом окне'),
-    ('wall_view_inline', 'приложение запущено со стены пользователя для просмотра ранее размещенной записи'),
-    ('wall_view', 'приложение запущено со стены пользователя для просмотра ранее размещенной записи и развернуто в новом окне'),
-)
-
 class VkontakteIframeForm(forms.Form):
     LANGUAGE_CHOICES = [(i[0], i[1][0]) for i in LANGUAGES]
 
@@ -76,7 +68,7 @@ class VkontakteIframeForm(forms.Form):
     api_settings = forms.CharField()
 
     # строка с информацией о том, откуда было запущено приложение
-    referrer = forms.ChoiceField(REFERRER_CHOICES, required=False)
+    referrer = forms.CharField(required=False)
 
     # id пользователя, разместившего запись на стене
     poster_id = forms.IntegerField(required=False)
