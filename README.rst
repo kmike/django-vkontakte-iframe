@@ -94,7 +94,7 @@ Usage
    the 'First API request' ('Первый запрос к API') option (in your app edit
    page at vkontakte.ru)::
 
-        method=getProfiles&uids={viewer_id}&format=json&v=3.0&fields=uid,first_name,last_name,nickname,domain,sex,bdate,city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education
+        method=getProfiles&uids={viewer_id}&format=json&v=3.0&fields=uid,first_name,last_name,nickname,domain,sex,bdate,city,country,timezone,photo,photo_medium,photo_big,photo_rec,has_mobile,rate,contacts,education
 
 9. That's all. All your app's visitors are now registered and authenticated
    django users. Additional profile data is available as user.vk_profile.
