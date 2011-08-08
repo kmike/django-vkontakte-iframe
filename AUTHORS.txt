@@ -3,3 +3,5 @@ Authors
 
 * Mikhail Korobov <kmike84@gmail.com>
 * Nakvasiuk Vasyl <vaxxxa@gmail.com>
+* Evgeniy Kirov
+* Maxim Syabro
