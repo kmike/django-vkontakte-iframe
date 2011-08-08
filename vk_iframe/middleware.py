@@ -7,6 +7,9 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from vk_iframe.forms import VkontakteIframeForm
 
+DEFAULT_P3P_POLICY = 'IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'
+P3P_POLICY = getattr(settings, 'VK_P3P_POLICY', DEFAULT_P3P_POLICY)
+
 class AuthenticationMiddleware(object):
 
     def process_request(self, request):
@@ -44,6 +47,10 @@ class AuthenticationMiddleware(object):
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
+
+    def process_response(self, request, response):
+        response["P3P"] = 'CP="%s"' % P3P_POLICY
+        return response
 
 
 PUBLIC_URLS = [re.compile(url) for url in getattr(settings, 'PUBLIC_URLS', [])]

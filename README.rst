@@ -96,6 +96,14 @@ Usage
 
         method=getProfiles&uids={viewer_id}&format=json&v=3.0&fields=uid,first_name,last_name,nickname,domain,sex,bdate,city,country,timezone,photo,photo_medium,photo_big,photo_rec,has_mobile,rate,contacts,education
 
-9. That's all. All your app's visitors are now registered and authenticated
+9. For IE: adjust P3P policy header value according to your site privacy policy
+   by providing VK_P3P_POLICY option in your settings.py::
+
+        VK_P3P_POLICY = 'IDC DSP COR IVAi IVDi OUR TST'
+
+   Default value is 'IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'.
+   See http://www.p3pwriter.com/LRN_111.asp for the full set of tags.
+
+10. That's all. All your app's visitors are now registered and authenticated
    django users. Additional profile data is available as user.vk_profile.
 
