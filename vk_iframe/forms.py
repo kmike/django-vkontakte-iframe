@@ -22,6 +22,7 @@ VIEWER_TYPES_USER = (
     (0, u'пользователь не состоит в группе'),
 )
 
+
 class VkontakteIframeForm(forms.Form):
     LANGUAGE_CHOICES = [(i[0], i[1][0]) for i in LANGUAGES]
 
@@ -61,7 +62,7 @@ class VkontakteIframeForm(forms.Form):
     language = forms.ChoiceField(LANGUAGE_CHOICES)
 
     # результат первого API-запроса, который выполняется при загрузке приложения
-    api_result = forms.CharField(required = False)
+    api_result = forms.CharField(required=False)
 
     # битовая маска настроек текущего пользователя в данном приложении
     # TODO: подробнее см. в описании метода getUserSettings
@@ -94,6 +95,9 @@ class VkontakteIframeForm(forms.Form):
             raise forms.ValidationError(u'Неверный ключ авторизации: %s != %s' % (key, correct_key,))
         return self.cleaned_data['auth_key']
 
+    def vk_user_id(self):
+        return self.cleaned_data['viewer_id']
+
     def profile_api_result(self):
         # в настройках нужно указать "Первый запрос к API":
         # method=getProfiles&uids={viewer_id}&format=json&v=3.0&fields=uid,first_name,last_name,nickname,domain,sex,bdate,city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education
@@ -114,3 +118,38 @@ class VkontakteIframeForm(forms.Form):
         if check_for_language(lang_code):
             return lang_code
         return None
+
+
+class VkontakteOpenAPIForm(forms.Form):
+
+    # id залогиненного в контакте пользователя, аналог viewer_id из предыдущей формы
+    uid = forms.IntegerField()
+
+    # защитный хэш, аналог auth_key
+    hash = forms.CharField()
+
+    # имя и фамилия
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+
+    def get_auth_key(self):
+        api_id = settings.VK_APP_ID
+        viewer_id = self.cleaned_data['uid']
+        api_secret = settings.VK_APP_SECRET
+        return md5(str(api_id) + str(viewer_id) + str(api_secret)).hexdigest()
+
+    def clean_hash(self):
+        correct_key = self.get_auth_key().lower()
+        key = self.cleaned_data['hash'].lower()
+        print key
+        print correct_key
+        if correct_key != key:
+            raise forms.ValidationError(u'Неверный ключ авторизации: %s != %s' % (key, correct_key,))
+        return self.cleaned_data['hash']
+
+    def vk_user_id(self):
+        return self.cleaned_data['uid']
+
+    def profile_api_result(self):
+        return {'first_name': self.cleaned_data['first_name'],
+                'last_name': self.cleaned_data['last_name']}

@@ -3,6 +3,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 from vk_iframe.models import City, Country
 
+
 class VkontakteUserBackend(ModelBackend):
     """ Использовать вместе с vk.middleware.AuthenticationMiddleware """
 
@@ -15,12 +16,12 @@ class VkontakteUserBackend(ModelBackend):
             return
 
         defaults = {}
-        username = str(vk_form.cleaned_data['viewer_id'])
+        username = str(vk_form.vk_user_id())
         vk_profile = vk_form.profile_api_result()
         if vk_profile:
             defaults = dict(
-                first_name = vk_profile['first_name'],
-                last_name = vk_profile['last_name'],
+                first_name=vk_profile['first_name'],
+                last_name=vk_profile['last_name'],
             )
 
         user, created = User.objects.get_or_create(username=username, defaults=defaults)
