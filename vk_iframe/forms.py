@@ -141,8 +141,6 @@ class VkontakteOpenAPIForm(forms.Form):
     def clean_hash(self):
         correct_key = self.get_auth_key().lower()
         key = self.cleaned_data['hash'].lower()
-        print key
-        print correct_key
         if correct_key != key:
             raise forms.ValidationError(u'Неверный ключ авторизации: %s != %s' % (key, correct_key,))
         return self.cleaned_data['hash']
