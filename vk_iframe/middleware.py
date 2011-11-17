@@ -59,7 +59,9 @@ class IFrameFixMiddleware(object):
         """
         if (request.META['HTTP_USER_AGENT'].find('Safari') != -1
             or request.META['HTTP_USER_AGENT'].find('Opera') != -1) \
-           and 'sessionid' not in request.COOKIES and 'cookie_fix' not in request.GET:
+           and 'sessionid' not in request.COOKIES \
+           and 'cookie_fix' not in request.GET \
+           and 'api_id' in request.GET:
 
             html = """<html><body><form name='cookie_fix' method='GET' action='.'>"""
             for item in request.GET:
