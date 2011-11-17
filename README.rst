@@ -12,7 +12,7 @@ Installation
 
 ::
 
-    $ pip install django-vkontakte-iframe
+    $ pip install -e hg+http://bitbucket.org/eXtractor/django-vkontakte-iframe/#egg=django-vkontakte-iframe
 
 
 Requirements
@@ -46,13 +46,15 @@ Usage
         )
 
 
-5. Put 'vk_iframe.middleware.AuthenticationMiddleware' and
+5. Put 'vk_iframe.middleware.AuthenticationMiddleware',
+   'vk_iframe.middleware.IFrameFixMiddleware' and
    'vk_iframe.middleware.LoginRequiredMiddleware' to MIDDLEWARE_CLASSES::
 
         MIDDLEWARE_CLASSES = [
             # ...
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             # ...
+            'vk_iframe.middleware.IFrameFixMiddleware',
             'vk_iframe.middleware.AuthenticationMiddleware',
             # ...
             'django.middleware.locale.LocaleMiddleware',

@@ -2,7 +2,7 @@
 import re
 from django.contrib import auth
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from django.conf import settings
 from django.shortcuts import render_to_response
 from vk_iframe.forms import VkontakteIframeForm
@@ -35,7 +35,7 @@ class AuthenticationMiddleware(object):
         # пользователь не залогинен или залогинен под другим именем
         vk_form = VkontakteIframeForm(request.GET)
 
-        user = auth.authenticate(vk_form = vk_form)
+        user = auth.authenticate(vk_form=vk_form)
         if user:
             request.user = user
             auth.login(request, user)
@@ -48,7 +48,29 @@ class AuthenticationMiddleware(object):
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
 
+
+class IFrameFixMiddleware(object):
+
+    def process_request(self, request):
+        """
+        Safari default security policy restricts cookie setting in first request in iframe.
+        Solution is to create hidden form to preserve GET variables and REPOST it to current URL.
+        taken from https://gist.github.com/796811
+        """
+        if request.META['HTTP_USER_AGENT'].find('Safari') != -1\
+           and 'sessionid' not in request.COOKIES and 'cookie_fix' not in request.GET:
+            html = """<html><body><form name='cookie_fix' method='GET' action='.'>"""
+            for item in request.GET:
+                html += "<input type='hidden' value='%s' name='%s' />" % (request.GET[item], item)
+            html += "<input type='hidden' name='cookie_fix' value='1' />"
+            html += "</form>"
+            html += '''<script type="text/javascript">document.cookie_fix.submit()</script></html>'''
+            return HttpResponse(html)
+
     def process_response(self, request, response):
+        """
+        P3P policy for Internet Explorer.
+        """
         response["P3P"] = 'CP="%s"' % P3P_POLICY
         return response
 
