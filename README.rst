@@ -12,7 +12,7 @@ Installation
 
 ::
 
-    $ pip install -e hg+http://bitbucket.org/eXtractor/django-vkontakte-iframe/#egg=django-vkontakte-iframe
+    $ pip install django-vkontakte-iframe
 
 
 Requirements
