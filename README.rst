@@ -107,5 +107,5 @@ Usage
    See http://www.p3pwriter.com/LRN_111.asp for the full set of tags.
 
 10. That's all. All your app's visitors are now registered and authenticated
-   django users. Additional profile data is available as user.vk_profile.
+    django users. Additional profile data is available as user.vk_profile.
 
