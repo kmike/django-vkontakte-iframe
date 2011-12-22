@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+dev (TBA)
+---------
+* Improved Safari cookie fix (thanks Domantas Jackūnas);
+* IFrameFixMiddleware works now if user agent is not set.
+
 0.3 (2011-11-28)
 ----------------
 

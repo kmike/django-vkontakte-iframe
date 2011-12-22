@@ -53,16 +53,19 @@ class IFrameFixMiddleware(object):
 
     def process_request(self, request):
         """
-        Safari default security policy restricts cookie setting in first request in iframe.
+        Safari and Opera default security policies restrict cookie setting in first request in iframe.
         Solution is to create hidden form to preserve GET variables and REPOST it to current URL.
-        taken from https://gist.github.com/796811
-        """
-        if (request.META['HTTP_USER_AGENT'].find('Safari') != -1
-            or request.META['HTTP_USER_AGENT'].find('Opera') != -1) \
-           and 'sessionid' not in request.COOKIES \
-           and 'cookie_fix' not in request.GET \
-           and 'api_id' in request.GET:
 
+        Inspired by https://gist.github.com/796811 and https://gist.github.com/1511039.
+        """
+        user_agent = request.META.get('HTTP_USER_AGENT', '')
+
+        browser_is_safari = 'Safari' in user_agent and 'Chrome' not in user_agent
+        browser_is_opera = 'Opera' in user_agent
+        first_request = 'sessionid' not in request.COOKIES and 'cookie_fix' not in request.GET
+        iframe_auth = 'api_id' in request.GET
+
+        if (browser_is_safari or browser_is_opera) and first_request and iframe_auth:
             html = """<html><body><form name='cookie_fix' method='GET' action='.'>"""
             for item in request.GET:
                 html += "<input type='hidden' value='%s' name='%s' />" % (request.GET[item], item)

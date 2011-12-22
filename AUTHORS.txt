@@ -5,3 +5,4 @@ Authors
 * Nakvasiuk Vasyl <vaxxxa@gmail.com>
 * Evgeniy Kirov
 * Maxim Syabro
+* Domantas Jackūnas
