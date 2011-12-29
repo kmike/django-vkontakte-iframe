@@ -115,8 +115,11 @@ class VkontakteIframeForm(forms.Form):
             if language[0] == int(self.cleaned_data['language']):
                 lang_code = language[1]
                 break
-        if check_for_language(lang_code):
-            return lang_code
+        try:
+            if check_for_language(lang_code):
+                return lang_code
+        except AttributeError:
+            pass
         return None
 
 
