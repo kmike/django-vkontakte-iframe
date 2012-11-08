@@ -6,6 +6,7 @@ from django.http import HttpResponseForbidden, HttpResponse
 from django.conf import settings
 from django.shortcuts import render_to_response
 from vk_iframe.forms import VkontakteIframeForm
+import vkontakte
 
 DEFAULT_P3P_POLICY = 'IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'
 P3P_POLICY = getattr(settings, 'VK_P3P_POLICY', DEFAULT_P3P_POLICY)
@@ -27,9 +28,14 @@ class AuthenticationMiddleware(object):
         if 'viewer_id' not in request.GET:
             return
 
+        def path_user_with_vkapi(user):
+            if hasattr(request, 'session'):
+                setattr(user,'vk_api',vkontakte.API(token = request.session['vk_startup_vars']['access_token']))
+
         # пользователь уже залогинен под тем же именем
         if request.user.is_authenticated():
             if request.user.username == request.GET['viewer_id']:
+                path_user_with_vkapi(request.user)
                 return
 
         # пользователь не залогинен или залогинен под другим именем
@@ -50,6 +56,8 @@ class AuthenticationMiddleware(object):
                 # этот большой кусок сохранять в сессию не будем, он уже есть в vk_profile
                 del startup_vars['api_result']
                 request.session['vk_startup_vars'] = startup_vars
+
+            path_user_with_vkapi(request.user)
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
