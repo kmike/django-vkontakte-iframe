@@ -28,14 +28,14 @@ class AuthenticationMiddleware(object):
         if 'viewer_id' not in request.GET:
             return
 
-        def path_user_with_vkapi(user):
+        def patch_user_with_vkapi(user):
             if hasattr(request, 'session'):
                 setattr(user,'vk_api',vkontakte.API(token = request.session['vk_startup_vars']['access_token']))
 
         # пользователь уже залогинен под тем же именем
         if request.user.is_authenticated():
             if request.user.username == request.GET['viewer_id']:
-                path_user_with_vkapi(request.user)
+                patch_user_with_vkapi(request.user)
                 return
 
         # пользователь не залогинен или залогинен под другим именем
@@ -57,7 +57,7 @@ class AuthenticationMiddleware(object):
                 del startup_vars['api_result']
                 request.session['vk_startup_vars'] = startup_vars
 
-            path_user_with_vkapi(request.user)
+            patch_user_with_vkapi(request.user)
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
