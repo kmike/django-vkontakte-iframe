@@ -53,15 +53,15 @@ class AuthenticationMiddleware(object):
             request.user = user
             auth.login(request, user)
 
-            # устанавливаем язык пользователя
-            lang_code = vk_form.language_code()
             if hasattr(request, 'session'):
+                # устанавливаем язык пользователя
+                lang_code = vk_form.language_code()
                 if lang_code:
                     request.session['django_language'] = lang_code
 
+                # сохраняем начальные параметры, тк там точно есть что то полезное
                 startup_vars = vk_form.cleaned_data
-                # этот большой кусок сохранять в сессию не будем, он уже есть в vk_profile
-                del startup_vars['api_result']
+                del startup_vars['api_result'] # этот большой кусок сохранять в сессию не будем, он уже есть в vk_profile
                 request.session['vk_startup_vars'] = startup_vars
 
             patch_request_with_vkapi(request.user)
