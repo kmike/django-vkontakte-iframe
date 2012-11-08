@@ -45,7 +45,11 @@ class AuthenticationMiddleware(object):
             if hasattr(request, 'session'):
                 if lang_code:
                     request.session['django_language'] = lang_code
-                request.session['vk_startup_vars'] = vk_form.cleaned_data
+
+                startup_vars = vk_form.cleaned_data
+                # этот большой кусок сохранять в сессию не будем, он уже есть в vk_profile
+                del startup_vars['api_result']
+                request.session['vk_startup_vars'] = startup_vars
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
