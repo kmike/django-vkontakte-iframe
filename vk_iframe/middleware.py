@@ -42,8 +42,10 @@ class AuthenticationMiddleware(object):
 
             # устанавливаем язык пользователя
             lang_code = vk_form.language_code()
-            if hasattr(request, 'session') and lang_code:
-                request.session['django_language'] = lang_code
+            if hasattr(request, 'session'):
+                if lang_code:
+                    request.session['django_language'] = lang_code
+                request.session['vk_startup_vars'] = vk_form.cleaned_data
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors

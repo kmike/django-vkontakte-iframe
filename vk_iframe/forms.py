@@ -58,6 +58,9 @@ class VkontakteIframeForm(forms.Form):
     # ключ, необходимый для авторизации пользователя на стороннем сервере
     auth_key = forms.CharField()
 
+    # access token для вызова методов Vkontakte API
+    access_token = forms.CharField()
+
     # id языка пользователя, просматривающего приложение
     language = forms.ChoiceField(LANGUAGE_CHOICES)
 
