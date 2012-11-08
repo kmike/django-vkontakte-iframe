@@ -64,7 +64,7 @@ class AuthenticationMiddleware(object):
                 del startup_vars['api_result'] # этот большой кусок сохранять в сессию не будем, он уже есть в vk_profile
                 request.session['vk_startup_vars'] = startup_vars
 
-            patch_request_with_vkapi(request.user)
+                patch_request_with_vkapi(request.user)
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
