@@ -6,7 +6,12 @@ from django.http import HttpResponseForbidden, HttpResponse
 from django.conf import settings
 from django.shortcuts import render_to_response
 from vk_iframe.forms import VkontakteIframeForm
-import vkontakte
+
+try:
+    import vkontakte
+    use_vkontakte_pkg = True
+except ImportError:
+    use_vkontakte_pkg = False
 
 DEFAULT_P3P_POLICY = 'IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'
 P3P_POLICY = getattr(settings, 'VK_P3P_POLICY', DEFAULT_P3P_POLICY)
@@ -29,8 +34,9 @@ class AuthenticationMiddleware(object):
             return
 
         def patch_user_with_vkapi(user):
-            if hasattr(request, 'session'):
-                setattr(user,'vk_api',vkontakte.API(token = request.session['vk_startup_vars']['access_token']))
+            if hasattr(request, 'session') and use_vkontakte_pkg:
+                token = request.session['vk_startup_vars']['access_token']
+                setattr(user,'vk_api',vkontakte.API(token = token))
 
         # пользователь уже залогинен под тем же именем
         if request.user.is_authenticated():
