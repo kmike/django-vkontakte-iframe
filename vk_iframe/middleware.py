@@ -29,19 +29,20 @@ class AuthenticationMiddleware(object):
                 " 'django.contrib.auth.middleware.AuthenticationMiddleware'"
                 " before the vk.middleware.AuthenticationMiddleware class.")
 
-        # не было попытки авторизоваться через Вконтакте
-        if 'viewer_id' not in request.GET:
-            return
-
-        def patch_user_with_vkapi(user):
+        def patch_request_with_vkapi(user):
             if hasattr(request, 'session') and use_vkontakte_pkg:
                 token = request.session['vk_startup_vars']['access_token']
-                setattr(user,'vk_api',vkontakte.API(token = token))
+                setattr(request,'vk_api',vkontakte.API(token = token))
+
+        # не было попытки авторизоваться через Вконтакте
+        if 'viewer_id' not in request.GET:
+            patch_request_with_vkapi(request.user)
+            return
 
         # пользователь уже залогинен под тем же именем
         if request.user.is_authenticated():
             if request.user.username == request.GET['viewer_id']:
-                patch_user_with_vkapi(request.user)
+                patch_request_with_vkapi(request.user)
                 return
 
         # пользователь не залогинен или залогинен под другим именем
@@ -63,7 +64,7 @@ class AuthenticationMiddleware(object):
                 del startup_vars['api_result']
                 request.session['vk_startup_vars'] = startup_vars
 
-            patch_user_with_vkapi(request.user)
+            patch_request_with_vkapi(request.user)
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
