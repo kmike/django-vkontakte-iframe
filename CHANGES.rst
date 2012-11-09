@@ -1,10 +1,12 @@
 CHANGES
 =======
 
-dev (TBA)
----------
+0.4 (2012-11-10)
+----------------
+* ``request.vk_api`` with ``vkontakte.API`` instance (thanks Anton Smirnov);
+* Workaround for AttributeError in forms.py (thanks Evgeniy Kirov);
 * Improved Safari cookie fix (thanks Domantas Jackūnas);
-* IFrameFixMiddleware works now if user agent is not set.
+* IFrameFixMiddleware works now if user agent is not set (thanks Evgeniy Kirov).
 
 0.3 (2011-11-28)
 ----------------

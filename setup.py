@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from distutils.core import setup
 
-version='0.3'
+version='0.4'
 
 setup(
     name='django-vkontakte-iframe',
@@ -14,10 +14,9 @@ setup(
         'vk_iframe': ['templates/vk_iframe/default/403.html', 'fixtures/vk-geo.json']
     },
 
-    url='http://bitbucket.org/kmike/django-vkontakte-iframe/',
-    download_url = 'http://bitbucket.org/kmike/django-vkontakte-iframe/get/tip.zip',
-    license = 'MIT license',
-    description = "Django app for developing vk.com (aka vkontakte.ru) iframe applications",
+    url='https://bitbucket.org/kmike/django-vkontakte-iframe/',
+    license='MIT license',
+    description="Django app for developing vk.com (aka vkontakte.ru) iframe applications",
 
     long_description = open('README.rst').read() + open('CHANGES.rst').read(),
 

@@ -22,7 +22,8 @@ Requirements
 
 Optional:
 
-* vkontakte >= 0.9.4.1 for populating cities and countries info via admin action
+* vkontakte >= 1.3 for ``request.vk_api`` and for
+  populating cities and countries info via admin action.
 
 Usage
 =====
@@ -36,7 +37,7 @@ Usage
         VK_APP_KEY = 'M1gytuHwni'               # Application key
         VK_APP_SECRET = 'MiRFwrDYwcYFCTD18EcY'  # Secure key
 
-3. Add 'vk_iframe' to INSTALLED_APPS
+3. Add 'vk_iframe' to ``INSTALLED_APPS``.
 
 4. Add 'vk_iframe.backends.VkontakteUserBackend' to AUTHENTICATION_BACKENDS::
 
@@ -108,4 +109,6 @@ Usage
 
 10. That's all. All your app's visitors are now registered and authenticated
     django users. Additional profile data is available as user.vk_profile.
+    ``vkontakte.API`` instance is available as ``request.vk_api`` if there is
+    an access token available.
 

@@ -6,3 +6,4 @@ Authors
 * Evgeniy Kirov
 * Maxim Syabro
 * Domantas Jackūnas
+* Anton Smirnov
