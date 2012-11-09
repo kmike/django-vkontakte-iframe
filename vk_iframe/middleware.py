@@ -29,21 +29,15 @@ class AuthenticationMiddleware(object):
                 " 'django.contrib.auth.middleware.AuthenticationMiddleware'"
                 " before the vk.middleware.AuthenticationMiddleware class.")
 
-        def patch_request_with_vkapi():
-            if use_vkontakte_pkg and hasattr(request, 'session'):
-                if 'vk_startup_vars' in request.session:
-                    token = request.session['vk_startup_vars']['access_token']
-                    setattr(request,'vk_api',vkontakte.API(token = token))
-
         # не было попытки авторизоваться через Вконтакте
         if 'viewer_id' not in request.GET:
-            patch_request_with_vkapi()
+            self._patch_request_with_vkapi(request)
             return
 
         # пользователь уже залогинен под тем же именем
         if request.user.is_authenticated():
             if request.user.username == request.GET['viewer_id']:
-                patch_request_with_vkapi()
+                self._patch_request_with_vkapi(request)
                 return
 
         # пользователь не залогинен или залогинен под другим именем
@@ -65,10 +59,20 @@ class AuthenticationMiddleware(object):
                 del startup_vars['api_result'] # этот большой кусок сохранять в сессию не будем, он уже есть в vk_profile
                 request.session['vk_startup_vars'] = startup_vars
 
-                patch_request_with_vkapi()
+                self._patch_request_with_vkapi(request)
 
         else:
             request.META['VKONTAKTE_LOGIN_ERRORS'] = vk_form.errors
+
+    def _patch_request_with_vkapi(self, request):
+        """
+        Помещает в request.vk_api экземпляр vkontakte.API с настроенной
+        авторизацией.
+        """
+        if use_vkontakte_pkg and hasattr(request, 'session'):
+            if 'vk_startup_vars' in request.session:
+                token = request.session['vk_startup_vars']['access_token']
+                request.vk_api = vkontakte.API(token=token)
 
 
 class IFrameFixMiddleware(object):
