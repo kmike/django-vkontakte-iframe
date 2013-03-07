@@ -4,6 +4,13 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+try:
+    from django.contrib.auth import get_user_model
+except ImportError: # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
@@ -25,7 +32,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'Profile'
         db.create_table('vk_iframe_profile', (
-            ('user', self.gf('annoying.fields.AutoOneToOneField')(related_name='vk_profile', unique=True, primary_key=True, to=orm['auth.User'])),
+            ('user', self.gf('annoying.fields.AutoOneToOneField')(related_name='vk_profile', unique=True, primary_key=True, to=User)),
             ('nickname', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
             ('domain', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
             ('sex', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),

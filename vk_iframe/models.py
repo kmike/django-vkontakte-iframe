@@ -1,8 +1,16 @@
 #coding: utf-8
+from django.conf import settings
 from django.db import models
 from django.db.models import CharField, URLField, ForeignKey, NullBooleanField, IntegerField
-from django.contrib.auth.models import User
 from annoying.fields import AutoOneToOneField
+
+try:
+    from django.contrib.auth import get_user_model
+except ImportError: # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
+
 
 class Country(models.Model):
     title = CharField(u'Название', max_length=100, null=True, blank=True)
@@ -45,10 +53,10 @@ class Profile(models.Model):
     country =       ForeignKey(Country, blank=True, null=True)
     timezone =      IntegerField(u'Часовой пояс', blank=True, null=True)
 
-    photo =         URLField(blank=True, null=True, verify_exists=False)
-    photo_medium =  URLField(blank=True, null=True, verify_exists=False)
-    photo_big =     URLField(blank=True, null=True, verify_exists=False)
-    photo_rec =     URLField(blank=True, null=True, verify_exists=False)
+    photo =         URLField(blank=True, null=True)
+    photo_medium =  URLField(blank=True, null=True)
+    photo_big =     URLField(blank=True, null=True)
+    photo_rec =     URLField(blank=True, null=True)
 
     rate =          IntegerField(u'Рейтинг', blank=True, null=True)
     has_mobile =    NullBooleanField(u'Есть сотовый', blank=True, null=True)

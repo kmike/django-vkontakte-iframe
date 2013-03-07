@@ -16,6 +16,7 @@ except ImportError:
 DEFAULT_P3P_POLICY = 'IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'
 P3P_POLICY = getattr(settings, 'VK_P3P_POLICY', DEFAULT_P3P_POLICY)
 
+
 class AuthenticationMiddleware(object):
 
     def process_request(self, request):
@@ -109,6 +110,7 @@ class IFrameFixMiddleware(object):
 
 
 PUBLIC_URLS = [re.compile(url) for url in getattr(settings, 'PUBLIC_URLS', [])]
+
 
 class LoginRequiredMiddleware(object):
     def process_request(self, request):

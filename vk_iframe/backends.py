@@ -1,7 +1,14 @@
 #coding: utf-8
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
 from vk_iframe.models import City, Country
+
+try:
+    from django.contrib.auth import get_user_model
+except ImportError: # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
+
 
 
 class VkontakteUserBackend(ModelBackend):
