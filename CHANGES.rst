@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.4.1 (2013-03-07)
+------------------
+
+* django 1.5 support (thanks Maxim Syabro).
+
 0.4 (2012-11-10)
 ----------------
 * ``request.vk_api`` with ``vkontakte.API`` instance (thanks Anton Smirnov);

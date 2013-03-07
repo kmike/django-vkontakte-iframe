@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from distutils.core import setup
 
-version='0.4'
+version='0.4.1'
 
 setup(
     name='django-vkontakte-iframe',
@@ -18,7 +18,7 @@ setup(
     license='MIT license',
     description="Django app for developing vk.com (aka vkontakte.ru) iframe applications",
 
-    long_description = open('README.rst').read() + open('CHANGES.rst').read(),
+    long_description = open('README.rst').read() + "\n\n"+ open('CHANGES.rst').read(),
 
     classifiers=[
         'Development Status :: 3 - Alpha',
