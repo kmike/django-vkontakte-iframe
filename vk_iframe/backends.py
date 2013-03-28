@@ -48,7 +48,7 @@ class VkontakteUserBackend(ModelBackend):
             user_profile.country = country
 
         city_id = vk_profile.get('city', None)
-        if city_id:
+        if city_id and city_id!=u'0':
             city, created = City.objects.get_or_create(id=city_id, defaults={'country_id': country_id})
             user_profile.city = city
 
