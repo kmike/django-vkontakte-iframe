@@ -43,7 +43,7 @@ class VkontakteUserBackend(ModelBackend):
                 setattr(user_profile, key, vk_profile[key])
 
         country_id = vk_profile.get('country', None)
-        if country_id:
+        if country_id and country_id!=u'0':
             country, created = Country.objects.get_or_create(id=country_id)
             user_profile.country = country
 
