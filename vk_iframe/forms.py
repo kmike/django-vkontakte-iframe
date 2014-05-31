@@ -3,7 +3,7 @@ from hashlib import md5
 
 from django import forms
 from django.conf import settings
-from django.utils import simplejson as json
+import json
 from django.utils.translation import check_for_language
 
 from vk_iframe.languages import LANGUAGES
